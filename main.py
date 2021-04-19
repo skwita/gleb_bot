@@ -3,7 +3,6 @@ import re
 from config import token
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
-from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 
 vk_session = vk_api.VkApi(token=token)

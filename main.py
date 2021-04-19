@@ -1,4 +1,5 @@
 import random
+import re
 from config import token
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
@@ -9,7 +10,7 @@ vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, group_id=204095550)
 
-file_inp = open('db_gleb.txt')
+file_inp = open('db_gleb.txt', encoding='utf-8')
 temp = file_inp.readlines()
 file_inp.close()
 
@@ -20,8 +21,8 @@ try:
             if event.from_chat:
                 text = event.object['message']['text']
                 user_id = event.object['message']['from_id']
-                array_text = text.split(' ')
-                if 'глеб' in array_text or 'глеб,' in array_text:
+                result = re.search(r'гле', text.lower())
+                if result:
                     vk.messages.send(
                         chat_id=event.chat_id,
                         random_id=get_random_id(),
@@ -30,9 +31,9 @@ try:
                 if user_id == 144779081 and not temp.__contains__(text):
                     temp.append(text)
                     file_out.write('\n' + temp[-1])
-                if random.randint(0, 9) < 3:
+                if random.randint(0, 9) < 10:
                     if len(temp) != 0:
-                        rand = random.randint(0, len(temp) - 1)
+                        rand = random.randint(0, len(temp))
                         vk.messages.send(
                             random_id=get_random_id(),
                             message=temp[rand],

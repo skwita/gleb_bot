@@ -16,12 +16,20 @@ file_inp = open('db_gleb.txt', encoding='utf-8')
 gleb_phrases = file_inp.readlines()
 file_inp.close()
 
-trolls = open('trolling.txt', encoding='utf-8').readlines()
+troll_file = open('trolling.txt', encoding='utf-8')
+trolls = troll_file.readlines()
+troll_file.close()
+
+cfg_file = open('config.py')
+cfg = cfg_file.readlines()
+cfg_file.close()
+
 
 dict_commands = {'/пнуть глеба',
                  '/глеб',
                  '/затролить',
-                 '/анекдот'}
+                 '/анекдот',
+                 '/change_prob'}
 
 
 while True:
@@ -39,7 +47,7 @@ while True:
                             is_command = True
 
                     if is_command:
-                        command_message(vk, event.chat_id, text, trolls)
+                        command_message(vk, event.chat_id, text, trolls, cfg)
                     else:
                         if (user_id == 144779081 or user_id == 54849868) and not gleb_phrases.__contains__(text):
                             gleb_phrases.append(text)

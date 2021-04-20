@@ -22,7 +22,7 @@ def send_nudes(vk, chat_id, message):
     vk.messages.send(chat_id=chat_id, random_id=get_random_id(), message=message)
 
 
-def command_message(vk, chat_id, message, trolls):
+def command_message(vk, chat_id, message, trolls, cfg):
     if message.lower() == '/пнуть глеба':
         send_nudes(vk, chat_id, 'Глеб, иди делать ' + str_tasks[random.randint(0, len(str_tasks) - 1)])
     if message.lower() == '/глеб':
@@ -31,6 +31,14 @@ def command_message(vk, chat_id, message, trolls):
         send_nudes(vk, chat_id, trolls[random.randint(0, len(trolls) - 1)])
     if message.lower() == '/анекдот':
         send_nudes(vk, chat_id, str_anek)
+    msg_split = message.split(' ')
+    if msg_split[0].lower() == '/change_prob':
+        prob_new = msg_split[1]
+        cfg[1] = 'prob = ' + prob_new
+        cfg_file = open('config.py', 'w', encoding='utf-8')
+        cfg_file.writelines(cfg)
+        cfg_file.close()
+        print('done')
 
 
 def common_message(vk, chat_id, gleb_phrases):

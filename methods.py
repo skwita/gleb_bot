@@ -21,7 +21,7 @@ def send_nudes(vk, chat_id, message):
 
 
 def command_message(vk, chat_id, message):
-    file_cfg = open('config.py', encoding='utf-8')
+    file_cfg = open('config.txt', encoding='utf-8')
     cfg = file_cfg.readlines()
     file_cfg.close()
     if message.lower() == '/пнуть глеба':
@@ -30,13 +30,13 @@ def command_message(vk, chat_id, message):
         send_nudes(vk, chat_id, '@kok_magic')
     if message.lower() == '/затролить':
         cfg[2] = 'is_trolling_on = True'
-        cfg_file = open('config.py', 'w', encoding='utf-8')
+        cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'Глебу лучше перестать писать, иначе его отхуесосят по полной')
     if message.lower() == '/закончить тролинг':
         cfg[2] = 'is_trolling_on = False'
-        cfg_file = open('config.py', 'w', encoding='utf-8')
+        cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'Глеб может расслабиться')
@@ -46,14 +46,14 @@ def command_message(vk, chat_id, message):
     if msg_split[0].lower() == '/change_prob':
         prob_new = msg_split[1]
         cfg[1] = 'prob = ' + prob_new
-        cfg_file = open('config.py', 'w', encoding='utf-8')
+        cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'done')
 
 
 def common_message(vk, chat_id, gleb_phrases, trolls, user_id):
-    file_cfg = open('config.py', encoding='utf-8')
+    file_cfg = open('config.txt', encoding='utf-8')
     cfg = file_cfg.readlines()
     file_cfg.close()
     cfg_prob = cfg[1].split(' ')

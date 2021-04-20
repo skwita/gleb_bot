@@ -1,16 +1,10 @@
-import random
 import re
 import traceback
 
-from config import token
 from methods import *
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
-from vk_api.utils import get_random_id
 
-vk_session = vk_api.VkApi(token=token)
-vk = vk_session.get_api()
-longpoll = VkBotLongPoll(vk_session, group_id=204095550)
 
 file_inp = open('db_gleb.txt', encoding='windows-1251')
 gleb_phrases = file_inp.readlines()
@@ -20,10 +14,9 @@ troll_file = open('trolling.txt', encoding='utf-8')
 trolls = troll_file.readlines()
 troll_file.close()
 
-cfg_file = open('config.py')
+cfg_file = open('config.txt')
 cfg = cfg_file.readlines()
 cfg_file.close()
-
 
 dict_commands = {'/пнуть глеба',
                  '/глеб',
@@ -32,6 +25,10 @@ dict_commands = {'/пнуть глеба',
                  '/change_prob',
                  '/закончить тролинг'}
 
+token = cfg[0].split(' ')[2][:-1]
+vk_session = vk_api.VkApi(token=token)
+vk = vk_session.get_api()
+longpoll = VkBotLongPoll(vk_session, group_id=204095550)
 
 while True:
     try:

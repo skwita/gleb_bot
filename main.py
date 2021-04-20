@@ -1,5 +1,6 @@
 import re
 import traceback
+import time
 
 from methods import *
 import vk_api
@@ -19,7 +20,7 @@ cfg = cfg_file.readlines()
 cfg_file.close()
 
 dict_commands = {'/пнуть глеба',
-                 '/глеб',
+                 'гле',
                  '/затролить',
                  '/анекдот',
                  '/change_prob',
@@ -39,6 +40,17 @@ while True:
                     text = event.object['message']['text']
                     user_id = event.object['message']['from_id']
 
+                    hour = int(time.ctime().split(' ')[3].split(':')[0])
+                    if hour < 18:
+                        if check_gleb(vk, event.chat_id, text):
+                            continue
+                    else:
+                        cfg[3] = 'is_written = False\n'
+                        cfg[4] = 'is_wait = False\n'
+                        cfg_file = open('config.txt', 'w', encoding='utf-8')
+                        cfg_file.writelines(cfg)
+                        cfg_file.close()
+
                     is_command = False
                     for key in dict_commands:
                         if re.search(key, text.lower()):
@@ -46,10 +58,12 @@ while True:
                     if is_po_desytkam(text):
                         po_desytkam(vk, event.chat_id)
                     elif is_command:
-                        command_message(vk, event.chat_id, text)
+                        command_message(vk, event.chat_id, text, user_id)
                     elif user_id == 144779081 and not gleb_phrases.__contains__(text):
                         gleb_phrases.append(text)
                         file_out.write('\n' + gleb_phrases[-1])
+                        common_message(vk, event.chat_id, gleb_phrases, trolls, user_id)
+                    else:
                         common_message(vk, event.chat_id, gleb_phrases, trolls, user_id)
                 file_out.close()
     except Exception as e:

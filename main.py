@@ -41,7 +41,7 @@ while True:
                     user_id = event.object['message']['from_id']
 
                     hour = int(time.ctime().split(' ')[3].split(':')[0])
-                    if hour < 18:
+                    if hour >= 18:
                         if check_gleb(vk, event.chat_id, text):
                             continue
                     else:

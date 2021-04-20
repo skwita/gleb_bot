@@ -14,12 +14,10 @@ file_inp = open('db_gleb.txt', encoding='utf-8')
 temp = file_inp.readlines()
 file_inp.close()
 
+
 def send_nudes(chat_id, message):
     vk.messages.send(chat_id=chat_id, random_id=get_random_id(), message=message)
 
-
-file_test = open('trolling.txt', encoding='utf-8').readlines()
-print(file_test[550])
 
 while True:
     try:

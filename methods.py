@@ -1,7 +1,5 @@
 import random
 
-from config import prob
-
 from vk_api.utils import get_random_id
 
 str_tasks = ['теорвер', 'едсак', 'риск', 'расчетки', 'схемач', 'тесты', 'прогу', 'проект']
@@ -38,10 +36,15 @@ def command_message(vk, chat_id, message, trolls, cfg):
         cfg_file = open('config.py', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
-        print('done')
+        send_nudes(vk, chat_id, 'done')
 
 
 def common_message(vk, chat_id, gleb_phrases):
+    file_cfg = open('config.py', encoding='utf-8')
+    cfg = file_cfg.readlines()
+    file_cfg.close()
+    cfg_prob = cfg[1].split(' ')
+    prob = int(cfg_prob[2])
     if random.randint(0, 9) < prob:
         if len(gleb_phrases) != 0:
             rand = random.randint(0, len(gleb_phrases) - 1)

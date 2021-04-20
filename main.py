@@ -43,13 +43,13 @@ while True:
                     for key in dict_commands:
                         if re.search(key, text.lower()):
                             is_command = True
-
-                    if is_command:
+                    if is_po_desytkam(text):
+                        po_desytkam(vk, event.chat_id)
+                    elif is_command:
                         command_message(vk, event.chat_id, text)
-                    else:
-                        if user_id == 144779081 and not gleb_phrases.__contains__(text):
-                            gleb_phrases.append(text)
-                            file_out.write('\n' + gleb_phrases[-1])
+                    elif user_id == 144779081 and not gleb_phrases.__contains__(text):
+                        gleb_phrases.append(text)
+                        file_out.write('\n' + gleb_phrases[-1])
                         common_message(vk, event.chat_id, gleb_phrases, trolls, user_id)
                 file_out.close()
     except Exception as e:

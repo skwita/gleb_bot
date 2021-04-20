@@ -1,5 +1,5 @@
 import random
-
+import re
 from vk_api.utils import get_random_id
 
 str_tasks = ['теорвер', 'едсак', 'риск', 'расчетки', 'схемач', 'тесты', 'прогу', 'проект']
@@ -15,6 +15,7 @@ str_anek = 'Поймали инопланетяне китайца, францу
             Инопланетяне выполнили...\n\
             Русский говорит:\n\n\n — насри в угол...'
 
+str_fart = ['пёр', 'пер', 'пук', 'бзд', 'шепт', 'шёпт', 'пшик', 'запустить газовую станцию' ]
 
 def send_nudes(vk, chat_id, message):
     vk.messages.send(chat_id=chat_id, random_id=get_random_id(), message=message)
@@ -50,6 +51,18 @@ def command_message(vk, chat_id, message):
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'done')
+
+
+
+def is_po_desytkam(message):
+    for root in str_fart:
+        if re.search(fr'{root}', message):
+            return True
+    return False
+
+
+def po_desytkam(vk, chat_id):
+    send_nudes(vk, chat_id, 'По десяткам!')
 
 
 def common_message(vk, chat_id, gleb_phrases, trolls, user_id):

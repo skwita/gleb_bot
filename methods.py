@@ -21,22 +21,22 @@ def send_nudes(vk, chat_id, message):
     vk.messages.send(chat_id=chat_id, random_id=get_random_id(), message=message)
 
 
-def command_message(vk, chat_id, message):
+def command_message(vk, chat_id, message, user_id):
     file_cfg = open('config.txt', encoding='utf-8')
     cfg = file_cfg.readlines()
     file_cfg.close()
     if message.lower() == '/пнуть глеба':
         send_nudes(vk, chat_id, 'Глеб, иди делать ' + str_tasks[random.randint(0, len(str_tasks) - 1)])
-    if message.lower() == '/глеб':
+    if re.search(r'гле', message):
         send_nudes(vk, chat_id, '@kok_magic')
     if message.lower() == '/затролить':
-        cfg[2] = 'is_trolling_on = True'
+        cfg[2] = 'is_trolling_on = True\n'
         cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'Глебу лучше перестать писать, иначе его отхуесосят по полной')
-    if message.lower() == '/закончить тролинг':
-        cfg[2] = 'is_trolling_on = False'
+    if message.lower() == '/закончить тролинг' and user_id != 144779081:
+        cfg[2] = 'is_trolling_on = False\n'
         cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
@@ -46,12 +46,11 @@ def command_message(vk, chat_id, message):
     msg_split = message.split(' ')
     if msg_split[0].lower() == '/change_prob':
         prob_new = msg_split[1]
-        cfg[1] = 'prob = ' + prob_new
+        cfg[1] = f'prob = {prob_new}\n'
         cfg_file = open('config.txt', 'w', encoding='utf-8')
         cfg_file.writelines(cfg)
         cfg_file.close()
         send_nudes(vk, chat_id, 'done')
-
 
 
 def is_po_desytkam(message):
@@ -65,6 +64,33 @@ def po_desytkam(vk, chat_id):
     send_nudes(vk, chat_id, 'По десяткам!')
 
 
+def check_gleb(vk, chat_id, message):
+    file_cfg = open('config.txt', encoding='utf-8')
+    cfg = file_cfg.readlines()
+    file_cfg.close()
+    if cfg[3].split(' ')[2][:-1] == 'False':
+        if cfg[4].split(' ')[2][:-1] == 'True':
+            if re.search(r'не', message.lower()):
+                send_nudes(vk, chat_id, 'Плохо....')
+            elif re.search(r'да', message.lower()) or re.search(r'конечно', message.lower()) or re.search(r'отчислили',
+                                                                                                    message.lower()):
+                send_nudes(vk, chat_id, 'Харош')
+            else:
+                send_nudes(vk, chat_id, 'Не понял...')
+            cfg[3] = 'is_written = True\n'
+            cfg[4] = 'is_wait = False\n'
+            cfg_file = open('config.txt', 'w', encoding='utf-8')
+            cfg_file.writelines(cfg)
+            cfg_file.close()
+        else:
+            send_nudes(vk, chat_id, 'Кстати, Глеба отчислили?')
+            cfg[4] = 'is_wait = True\n'
+            cfg_file = open('config.txt', 'w', encoding='utf-8')
+            cfg_file.writelines(cfg)
+            cfg_file.close()
+        return True
+    return False
+
 def common_message(vk, chat_id, gleb_phrases, trolls, user_id):
     file_cfg = open('config.txt', encoding='utf-8')
     cfg = file_cfg.readlines()
@@ -72,9 +98,10 @@ def common_message(vk, chat_id, gleb_phrases, trolls, user_id):
     cfg_prob = cfg[1].split(' ')
     prob = int(cfg_prob[2])
     cfg_is_trolling_on = cfg[2].split(' ')
-    is_trolling_on = cfg_is_trolling_on[2] == 'True'
-    if is_trolling_on and user_id == 144779081:
-        send_nudes(vk, chat_id, trolls[random.randint(0, len(trolls) - 1)])
+    is_trolling_on = cfg_is_trolling_on[2] == 'True\n'
+    if is_trolling_on:
+        if user_id == 144779081:
+            send_nudes(vk, chat_id, trolls[random.randint(0, len(trolls) - 1)])
     elif random.randint(0, 9) < prob:
         if len(gleb_phrases) != 0:
             rand = random.randint(0, len(gleb_phrases) - 1)

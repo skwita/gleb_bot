@@ -12,7 +12,7 @@ vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, group_id=204095550)
 
-file_inp = open('db_gleb.txt', encoding='utf-8')
+file_inp = open('db_gleb.txt', encoding='windows-1251')
 gleb_phrases = file_inp.readlines()
 file_inp.close()
 

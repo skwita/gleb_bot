@@ -60,7 +60,7 @@ def common_message(vk, chat_id, gleb_phrases, trolls, user_id):
     prob = int(cfg_prob[2])
     cfg_is_trolling_on = cfg[2].split(' ')
     is_trolling_on = cfg_is_trolling_on[2] == 'True'
-    if is_trolling_on and (user_id == 144779081 or user_id == 54849868):
+    if is_trolling_on and user_id == 144779081:
         send_nudes(vk, chat_id, trolls[random.randint(0, len(trolls) - 1)])
     elif random.randint(0, 9) < prob:
         if len(gleb_phrases) != 0:
